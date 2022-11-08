@@ -1,4 +1,5 @@
 import { FaBookmark } from 'react-icons/fa';
+import { memo } from "react";
 
 const IMAGE_NOT_FOUND_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png';
 
@@ -22,4 +23,4 @@ function PropertyCard({ property, isActive, handleChangeActive }) {
   );
 };
 
-export default PropertyCard;
+export default memo(PropertyCard);

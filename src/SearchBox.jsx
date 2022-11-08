@@ -1,4 +1,5 @@
 import { FaSearch } from 'react-icons/fa';
+import { memo } from "react";
 
 function SearchBox({ search, handleSearch }) {
   return (
@@ -10,4 +11,4 @@ function SearchBox({ search, handleSearch }) {
   );
 }
 
-export default SearchBox;
+export default memo(SearchBox);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import SearchBox from './SearchBox';
 
 function Header({ search, handleSearch }) {
@@ -12,4 +13,4 @@ function Header({ search, handleSearch }) {
   );
 };
 
-export default Header;
+export default memo(Header);

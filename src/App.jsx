@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import Header from './Header';
 import PropertyCard from './PropertyCard';
 
@@ -9,9 +9,9 @@ function App() {
     // use this state to keep track of the user's saved/bookmarked properties
     const [savedProperties, setSavedProperties] = useState([]);
 
-    const handleSearch = (e) => {
+    const handleSearch = useCallback((e) => {
         setSearch(e.target.value);
-    }
+    }, [])
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -24,7 +24,7 @@ function App() {
         fetchPropertyData();
     }, []);
 
-    const handleChangeActive = (id) => {
+    const handleChangeActive = useCallback((id) => {
         setSavedProperties((prevState) => {
             if(prevState.includes(id)) {
                 return prevState.filter((prop) => {
@@ -33,7 +33,7 @@ function App() {
             }
             return [...prevState, id];
         });
-    }
+    }, [])
 
     return (
         <div className="container mx-auto my-5">
