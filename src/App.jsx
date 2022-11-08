@@ -6,8 +6,8 @@ function App() {
     const [properties, setProperties] = useState();
     const [search, setSearch] = useState('');
 
-    // use this state to keep track of the user's saved/bookmarked properties
-    const [savedProperties, setSavedProperties] = useState([]);
+    // use this state to keep track of the user's saved/bookmarked properties (no needed)
+    // const [savedProperties, setSavedProperties] = useState([]);
 
     const handleSearch = useCallback((e) => {
         setSearch(e.target.value);
@@ -18,21 +18,29 @@ function App() {
             const response = await fetch('/property-data.json');
             const json = await response.json();
 
-            setProperties(json.result.properties.elements);
+            setProperties(json.result.properties.elements.map((el) => {
+                return {
+                    ...el,
+                    isActive: false,
+                }
+            }));
         };
 
         fetchPropertyData();
     }, []);
 
     const handleChangeActive = useCallback((id) => {
-        setSavedProperties((prevState) => {
-            if(prevState.includes(id)) {
-                return prevState.filter((prop) => {
-                    return prop !== id;
-                })
-            }
-            return [...prevState, id];
-        });
+        setProperties((prevState) => {
+            return prevState.map((prop) => {
+                if (prop.property_id === id) {
+                    return {
+                        ...prop,
+                        isActive: !prop.isActive
+                    }
+                }
+                return prop;
+            })
+        })
     }, [])
 
     return (
@@ -42,7 +50,7 @@ function App() {
             <div className="grid grid-cols-1 gap-4 mt-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {!!properties && properties.filter((prop) => prop.short_description.toLowerCase().includes(search.toLowerCase())).map((property) =>
                     <PropertyCard key={property.property_id} property={property}
-                                  handleChangeActive={handleChangeActive} isActive={savedProperties.includes(property.property_id)}/>)}
+                                  handleChangeActive={handleChangeActive}/>)}
             </div>
         </div>
     );
